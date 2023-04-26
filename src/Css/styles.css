@@ -1,0 +1,41 @@
+.grid {
+  display: grid;
+  grid-template-rows: 150px;
+}
+
+.grey-container {
+  height: 100vh;
+  background-image: url("../images/GreyPendulam.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  /* background: linear-gradient(to right, #0077be, #89ded4); */
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #4db3cded;
+  /* background-color: #d92505e0; */
+
+  padding: 0 20px;
+  height: 85px;
+}
+
+.nav-item {
+  margin-left: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-item:hover {
+  border-bottom: 2px solid white;
+}
+
+.active {
+  border-bottom: 3px solid white;
+}

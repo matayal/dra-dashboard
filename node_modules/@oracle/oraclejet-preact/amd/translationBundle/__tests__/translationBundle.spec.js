@@ -1,0 +1,2 @@
+define(["chai","../../translationBundle"],function(e,t){"use strict";describe("Test translation bundle loader",()=>{it("loads root bundle",async function(){const n=await t.default(null);e.expect(n).not.null,e.expect(Object.keys(n).length).greaterThan(0)}),it("loads non-root bundle",async function(){const n=await t.default("en");e.expect(n).not.null,e.expect(Object.keys(n).length).greaterThan(0)})})});
+//# sourceMappingURL=translationBundle.spec.js.map
