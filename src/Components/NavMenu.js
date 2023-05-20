@@ -7,11 +7,11 @@ import { ImHome } from "react-icons/im";
 
 const NavMenu = () => {
   const menuItems = [
-    // { id: 1, name: "Home", path: "/" },
-    { id: 1, name: "Load STS", path: "/load-sts" },
-    { id: 2, name: "Construct Graph", path: "/construct-graph" },
-    { id: 3, name: "Graphs", path: "/graphs" },
-    { id: 4, name: "Community", path: "/community" },
+    { id: 1, name: "DB Connection", path: "/db-connection" },
+    { id: 2, name: "SQL Tuning Set", path: "/load-sts" },
+    { id: 3, name: "Construct Graph", path: "/construct-graph" },
+    { id: 4, name: "Graphs", path: "/graphs" },
+    { id: 5, name: "Community", path: "/community" },
   ];
   const [showLinks, setShowLinks] = useState(false);
   const linksContainerRef = useRef(null);
@@ -48,7 +48,9 @@ const NavMenu = () => {
           <ul className="links" ref={linksRef}>
             <Link
               to="/"
-              className={`links ${location.pathname === "/" ? "active" : ""}`}
+              className={`links ${
+                location.pathname === "/" ? "active " : "bounce-animation"
+              }`}
               onClick={() => handleItemClick(1)}
             >
               <ImHome />

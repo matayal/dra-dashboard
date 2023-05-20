@@ -1,30 +1,151 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as d3 from "d3";
 import "../Css/styles.css";
+import { Link } from "react-router-dom";
 
 function ViewGraph() {
   const svgRef = useRef();
+  const [isClicked, setIsClicked] = useState(false);
+
+  const handleClick = () => {
+    setIsClicked(true);
+  };
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
 
     // Define the data for the nodes and links
     const nodes = [
-      { id: "A", color: "red" },
-      { id: "B", color: "green" },
-      { id: "C", color: "blue" },
-      { id: "D", color: "grey" },
-      { id: "E", color: "pink" },
+      { id: "ORDER_CATALOG", color: "white" },
+      { id: "PHARMACY_NOTES", color: "white" },
+      { id: "ORDER_THERAP_SBSTTN", color: "white" },
+      { id: "ORDER_COMMENT", color: "white" },
+      { id: "ORDER_INGREDIENT", color: "white" },
+      { id: "ORDER_DISPENSE", color: "white" },
+      { id: "RAD_PROCEDURE_GROUP", color: "white" },
+      { id: "RAD_PROCEDURE_ASSOC", color: "white" },
+      { id: "ORDER_NOTIFICATION", color: "white" },
+      { id: "OUTCOME_ACTIVITY", color: "white" },
+      { id: "OUTCOME_CRITERIA", color: "white" },
+      { id: "ORDER_IV_INFO", color: "white" },
+      { id: "RAD_FOLLOW_UP_CONTROL", color: "white" },
     ];
 
     const links = [
-      { source: "A", target: "B", weight: 1 },
-      { source: "B", target: "A", weight: 1 },
-      { source: "A", target: "C", weight: 2 },
-      { source: "B", target: "C", weight: 3 },
-      { source: "A", target: "E", weight: 4 },
-      { source: "E", target: "D", weight: 5 },
-      { source: "C", target: "D", weight: 6 },
+      { source: "ORDER_CATALOG", target: "PHARMACY_NOTES", weight: 0.01738 },
+      { source: "PHARMACY_NOTES", target: "ORDER_CATALOG", weight: 0.01738 },
+      {
+        source: "ORDER_CATALOG",
+        target: "ORDER_THERAP_SBSTTN",
+        weight: 0.01806,
+      },
+      {
+        source: "ORDER_THERAP_SBSTTN",
+        target: "ORDER_CATALOG",
+        weight: 0.01806,
+      },
+      { source: "ORDER_COMMENT", target: "ORDER_INGREDIENT", weight: 0.02289 },
+      { source: "ORDER_INGREDIENT", target: "ORDER_COMMENT", weight: 0.02289 },
+      {
+        source: "ORDER_INGREDIENT",
+        target: "ORDER_THERAP_SBSTTN",
+        weight: 0.03398,
+      },
+      {
+        source: "ORDER_THERAP_SBSTTN",
+        target: "ORDER_INGREDIENT",
+        weight: 0.03398,
+      },
+      { source: "ORDER_COMMENT", target: "ORDER_DISPENSE", weight: 0.03402 },
+      { source: "ORDER_DISPENSE", target: "ORDER_COMMENT", weight: 0.03402 },
+      { source: "ORDER_COMMENT", target: "PHARMACY_NOTES", weight: 0.05445 },
+      { source: "PHARMACY_NOTES", target: "ORDER_COMMENT", weight: 0.05445 },
+      { source: "ORDER_DISPENSE", target: "ORDER_INGREDIENT", weight: 0.02746 },
+      { source: "ORDER_INGREDIENT", target: "ORDER_DISPENSE", weight: 0.02746 },
+      { source: "ORDER_CATALOG", target: "ORDER_DISPENSE", weight: 0.02892 },
+      { source: "ORDER_DISPENSE", target: "ORDER_CATALOG", weight: 0.02892 },
+      { source: "PHARMACY_NOTES", target: "ORDER_INGREDIENT", weight: 0.0314 },
+      { source: "ORDER_INGREDIENT", target: "PHARMACY_NOTES", weight: 0.0314 },
+      { source: "ORDER_CATALOG", target: "ORDER_COMMENT", weight: 0.01443 },
+      { source: "ORDER_COMMENT", target: "ORDER_CATALOG", weight: 0.01443 },
+      {
+        source: "PHARMACY_NOTES",
+        target: "ORDER_THERAP_SBSTTN",
+        weight: 0.22629,
+      },
+      {
+        source: "ORDER_THERAP_SBSTTN",
+        target: "PHARMACY_NOTES",
+        weight: 0.22629,
+      },
+      { source: "ORDER_CATALOG", target: "ORDER_INGREDIENT", weight: 0.24342 },
+      { source: "ORDER_INGREDIENT", target: "ORDER_CATALOG", weight: 0.24342 },
+      {
+        source: "RAD_PROCEDURE_GROUP",
+        target: "RAD_PROCEDURE_ASSOC",
+        weight: 0.27193,
+      },
+      {
+        source: "ORDER_CATALOG",
+        target: "RAD_PROCEDURE_ASSOC",
+        weight: 0.00626,
+      },
+      {
+        source: "RAD_PROCEDURE_ASSOC",
+        target: "ORDER_CATALOG",
+        weight: 0.00626,
+      },
+      {
+        source: "ORDER_CATALOG",
+        target: "ORDER_NOTIFICATION",
+        weight: 0.00894,
+      },
+      {
+        source: "ORDER_NOTIFICATION",
+        target: "ORDER_CATALOG",
+        weight: 0.00894,
+      },
+      {
+        source: "OUTCOME_ACTIVITY",
+        target: "OUTCOME_CRITERIA",
+        weight: 0.44791,
+      },
+      {
+        source: "OUTCOME_CRITERIA",
+        target: "OUTCOME_ACTIVITY",
+        weight: 0.44791,
+      },
+      { source: "ORDER_DISPENSE", target: "PHARMACY_NOTES", weight: 0.06061 },
+      { source: "PHARMACY_NOTES", target: "ORDER_DISPENSE", weight: 0.06061 },
+      {
+        source: "ORDER_COMMENT",
+        target: "ORDER_THERAP_SBSTTN",
+        weight: 0.06174,
+      },
+      {
+        source: "ORDER_THERAP_SBSTTN",
+        target: "ORDER_COMMENT",
+        weight: 0.06174,
+      },
+      {
+        source: "ORDER_DISPENSE",
+        target: "ORDER_THERAP_SBSTTN",
+        weight: 0.06934,
+      },
+      {
+        source: "ORDER_THERAP_SBSTTN",
+        target: "ORDER_DISPENSE",
+        weight: 0.06934,
+      },
+      { source: "ORDER_CATALOG", target: "ORDER_IV_INFO", weight: 0.12618 },
+      { source: "ORDER_IV_INFO", target: "ORDER_CATALOG", weight: 0.12618 },
+      {
+        source: "RAD_FOLLOW_UP_CONTROL",
+        target: "RAD_PROCEDURE_ASSOC",
+        weight: 0.17339,
+      },
+      { source: "ORDER_IV_INFO", target: "ORDER_INGREDIENT", weight: 0.20379 },
+      { source: "ORDER_INGREDIENT", target: "ORDER_IV_INFO", weight: 0.20379 },
     ];
 
     // Create the force simulation
@@ -51,15 +172,15 @@ function ViewGraph() {
       .attr("marker-end", "url(#arrowhead)");
 
     // Add weight labels to the links
-    const weightLabel = svg
-      .selectAll(".weight-label")
-      .data(links)
-      .enter()
-      .append("text")
-      .attr("class", "weight-label")
-      .attr("text-anchor", "middle")
-      .attr("dy", "-0.5em")
-      .text((d) => d.weight);
+    // const weightLabel = svg
+    //   .selectAll(".weight-label")
+    //   .data(links)
+    //   .enter()
+    //   .append("text")
+    //   .attr("class", "weight-label")
+    //   .attr("text-anchor", "middle")
+    //   .attr("dy", "-0.5em")
+    //   .text((d) => d.weight);
 
     // Create the nodes
     const node = svg
@@ -142,8 +263,15 @@ function ViewGraph() {
   }, []);
 
   return (
-    <div className="form">
-      <svg ref={svgRef} width="600" height="300"></svg>
+    <div>
+      <svg ref={svgRef} width="400" height="258"></svg>
+      {/* <div>
+        <Link to="/graphs">
+          <button className="btn" onClick={handleClick}>
+            OK
+          </button>
+        </Link>
+      </div> */}
     </div>
   );
 }

@@ -1,40 +1,56 @@
 import React, { useState } from "react";
-import FileUpload from "./FileUpload";
-import DatabaseSTS from "./DatabaseSTS";
-import "../App.css";
+import { Link } from "react-router-dom";
+import "../Css/styles.css";
+import Card from "./Card";
 
-function LoadSTS() {
-  const [selectedOption, setSelectedOption] = useState("uploadSTS");
+const LoadSts = () => {
+  const [selectedCard, setSelectedCard] = useState(null);
 
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
+  const cards = [
+    {
+      title: "SQLQueries",
+      description: "Add queries",
+      linkTo: "/load-sts-query",
+    },
+    {
+      title: "File",
+      description: "Upload a file",
+      linkTo: "/load-sts-file",
+    },
+    {
+      title: "Database",
+      description: "Existing STS",
+      linkTo: "/load-sts-database",
+    },
+  ];
 
   return (
-    <form className="form">
-      <th className="th">
-        &emsp; &emsp; &emsp;
-        <input
-          type="radio"
-          value="uploadSTS"
-          checked={selectedOption === "uploadSTS"}
-          onChange={handleOptionChange}
-          Checked
-        />
-        &nbsp; Load STS from File &emsp; &emsp; &emsp;&emsp; &emsp; &emsp;
-        <input
-          type="radio"
-          value="databaseSTS"
-          checked={selectedOption === "databaseSTS"}
-          onChange={handleOptionChange}
-        />
-        &nbsp; Load STS from Database &emsp; &emsp; &emsp;
-      </th>
-
-      {selectedOption === "uploadSTS" && <FileUpload />}
-      {selectedOption === "databaseSTS" && <DatabaseSTS />}
-    </form>
+    <div className=" form">
+      <h4>Load SQL Tuning Set by:</h4>
+      <br />
+      <br />
+      <br />
+      <div className="parent-container">
+        <div className="card-container">
+          {cards.map((card, index) => (
+            <Link key={index} to={card.linkTo}>
+              <Card
+                title={card.title}
+                description={card.description}
+                isSelected={selectedCard === index}
+              />
+            </Link>
+          ))}
+        </div>
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+    </div>
   );
-}
+};
 
-export default LoadSTS;
+export default LoadSts;

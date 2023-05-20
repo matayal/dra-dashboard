@@ -1,206 +1,104 @@
-// import React, { useEffect, useRef } from "react";
-// import * as d3 from "d3";
-// import "../Css/styles.css";
-
-// function GraphComponent() {
-//   const svgRef = useRef();
-
-//   useEffect(() => {
-//     const svg = d3.select(svgRef.current);
-
-//     // Define the data for the nodes and links
-//     const nodes = [
-//       { id: "A", color: "red" },
-//       { id: "B", color: "green" },
-//       { id: "C", color: "blue" },
-//       { id: "D", color: "grey" },
-//       { id: "E", color: "pink" },
-//     ];
-
-//     const links = [
-//       { source: "A", target: "B", weight: 1 },
-//       { source: "B", target: "A", weight: 1 },
-//       { source: "A", target: "C", weight: 2 },
-//       { source: "B", target: "C", weight: 3 },
-//       { source: "A", target: "E", weight: 4 },
-//       { source: "E", target: "D", weight: 5 },
-//       { source: "C", target: "D", weight: 6 },
-//     ];
-
-//     // Create the force simulation
-//     const simulation = d3
-//       .forceSimulation(nodes)
-//       .force(
-//         "link",
-//         d3
-//           .forceLink(links)
-//           .id((d) => d.id)
-//           .distance(100)
-//       )
-//       .force("charge", d3.forceManyBody().strength(-50))
-//       .force("center", d3.forceCenter(300, 150));
-
-//     // Create the links
-//     const link = svg
-//       .selectAll(".link")
-//       .data(links)
-//       .enter()
-//       .append("line")
-//       .attr("class", "link")
-//       .attr("stroke", "black")
-//       .attr("marker-end", "url(#arrowhead)");
-
-//     // Add weight labels to the links
-//     const weightLabel = svg
-//       .selectAll(".weight-label")
-//       .data(links)
-//       .enter()
-//       .append("text")
-//       .attr("class", "weight-label")
-//       .attr("text-anchor", "middle")
-//       .attr("dy", "-0.5em")
-//       .text((d) => d.weight);
-
-//     // Create the nodes
-//     const node = svg
-//       .selectAll(".node")
-//       .data(nodes)
-//       .enter()
-//       .append("circle")
-//       .attr("class", "node")
-//       .attr("r", 15)
-//       .attr("fill", (d) => d.color);
-
-//     // Add labels to the nodes
-//     const label = svg
-//       .selectAll(".label")
-//       .data(nodes)
-//       .enter()
-//       .append("text")
-//       .attr("class", "label")
-//       .attr("text-anchor", "middle")
-//       .attr("dy", ".35em")
-//       .text((d) => d.id);
-
-//     // Add the arrowhead marker to the svg
-//     svg
-//       .append("defs")
-//       .selectAll("marker")
-//       .data(["arrowhead"])
-//       .enter()
-//       .append("marker")
-//       .attr("id", "arrowhead")
-//       .attr("viewBox", "0 -5 10 10")
-//       .attr("refX", 20)
-//       .attr("markerWidth", 8)
-//       .attr("markerHeight", 8)
-//       .attr("orient", "auto")
-//       .append("path")
-//       .attr("d", "M0,-5L10,0L0,5");
-
-//     // Add arrowhead marker to the svg
-//     svg
-//       .append("defs")
-//       .selectAll("marker")
-//       .data(["arrowhead"])
-//       .enter()
-//       .append("marker")
-//       .attr("id", "arrowhead")
-//       .attr("viewBox", "0 -5 10 10")
-//       .attr("refX", 25)
-//       .attr("markerWidth", 8)
-//       .attr("markerHeight", 8)
-//       .attr("orient", "auto")
-//       .append("path")
-//       .attr("d", "M0,-5L10,0L0,5");
-
-//     // Add the text for weight to the edges
-//     const text = svg
-//       .selectAll(".text")
-//       .data(links)
-//       .enter()
-//       .append("text")
-//       .attr("class", "text")
-//       .text((d) => d.weight);
-
-//     // Update the position of the text on each tick
-//     simulation.on("tick", () => {
-//       link
-//         .attr("x1", (d) => d.source.x)
-//         .attr("y1", (d) => d.source.y)
-//         .attr("x2", (d) => d.target.x)
-//         .attr("y2", (d) => d.target.y);
-
-//       node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
-
-//       label.attr("x", (d) => d.x).attr("y", (d) => d.y);
-
-//       text
-//         .attr("x", (d) => (d.source.x + d.target.x) / 2)
-//         .attr("y", (d) => (d.source.y + d.target.y) / 2);
-//     });
-//   }, []);
-
-//   return (
-//     <div className="form">
-//       <svg ref={svgRef} width="600" height="300"></svg>
-//     </div>
-//   );
-// }
-
-// export default GraphComponent;
-
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import ViewGraph from "./ViewGraph";
 
 function GraphComponent() {
-  // const data = [
-  //   { graphName: "Graph 1", stsName: "Tuning Set 1" },
-  //   { graphName: "Graph 2", stsName: "Tuning Set 1" },
-  //   { graphName: "Graph 3", stsName: "Tuning Set 2" },
-  // ];
+  const data = [
+    { graphName: "Graph 1", stsName: "Tuning Set 1" },
+    { graphName: "Graph 2", stsName: "Tuning Set 1" },
+    { graphName: "Graph 3", stsName: "Tuning Set 2" },
+  ];
+  const [viewButton, setViewButton] = useState(null);
+  const [deleteButton, setDeleteButton] = useState(null);
 
-  // const renderTableData = () => {
-  //   return data.map((dra, index) => {
-  //     const { graphName, stsName } = dra;
+  const handleViewClick = (event) => {
+    event.preventDefault();
+    setViewButton(true);
+  };
 
-  //     let viewGraph = <button className="btn">View Graph</button>;
-  //     let deleteGraph = <button className="btn-red">Delete Graph</button>;
+  const handleDeleteClick = (event) => {
+    event.preventDefault();
+    setDeleteButton(true);
+  };
 
-  //  return (
-  //       <tr key={index}>
-  //         <td>{graphName}</td>
-  //         <td>{stsName}</td>
-  //         <td>
-  //           {viewGraph} &emsp; &emsp; &emsp;{deleteGraph}
-  //         </td>
-  //       </tr>
-  //     );
-  //   });
-  // };
+  return (
+    <div className="form-container">
+      <div className="form">
+        <h4>Graph</h4>
+        <br />
+        <br />
+        <br />
+        <table className="table">
+          <thead>
+            <tr>
+              <th style={{ backgroundColor: "#41afca", color: "#f1f5f9" }}>
+                Graph Name
+              </th>
+              <th style={{ backgroundColor: "#41afca", color: "#f1f5f9" }}>
+                STS Name
+              </th>
+              <th style={{ backgroundColor: "#41afca", color: "#f1f5f9" }}>
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((dra, index) => (
+              <tr key={index}>
+                <td>{dra.graphName}</td>
+                <td>{dra.stsName}</td>
+                <td>
+                  <Link to="/viewGraph">
+                    <button className="btn" onClick={handleViewClick}>
+                      View Graph
+                    </button>
+                  </Link>
+                  &emsp; &emsp; &emsp;
+                  <button className="btn-red" onClick={handleDeleteClick}>
+                    Delete Graph
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-  return;
-  //(
-  //   <div className="form">
-  //     <h4>Graph</h4>
-  //     <br />
-  //     <br />
-  //     <br />
-  //     <table className="table">
-  //       <thead>
-  //         <tr className="tr">
-  //           <th className="th">Graph Name</th>
-  //           <th bgcolor="#41afca">STS Name</th>
-  //           <th bgcolor="#41afca" color="#f1f5f9">
-  //             Actions
-  //           </th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>{renderTableData()}</tbody>
-  //     </table>
+        <br />
+      </div>
+      {viewButton !== null && (
+        <div className="modal">
+          <div className="modal-content auto">
+            <button className="btn-cross" onClick={() => setViewButton(null)}>
+              X
+            </button>
+            <ViewGraph />
+          </div>
+        </div>
+      )}
+      {deleteButton !== null && (
+        <div className="modal">
+          <div className="modal-content">
+            <button className="btn-cross" onClick={() => setDeleteButton(null)}>
+              X
+            </button>
+            <h2>Graph Deleted!!!</h2>
 
-  //     <br />
-  //   </div>
-  //   );
+            <button
+              className="btn"
+              style={{
+                width: "140px",
+                height: "40px",
+                margin: "20px 20px 20px 200px",
+              }}
+              onClick={() => setDeleteButton(null)}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default GraphComponent;
